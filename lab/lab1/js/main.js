@@ -101,7 +101,16 @@ the week was the most common for garbage removal?
 var dataset = 'https://raw.githubusercontent.com/CPLN690-MUSA610/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson';
 
 var myStyle = function(feature) {
-  return {};
+    //console.log(feature.properties);
+    switch (feature.properties.COLLDAY) {
+        case 'MON': return {color: "#e41a1c"};
+        case 'TUE':   return {color: "#377eb8"};
+        case 'WED':   return {color: "#4daf4a"};
+        case 'THU':   return {color: "#984ea3"};
+        case 'FRI':   return {color: "#ff7f00"};
+        case 'SAT':   return {color: "#ffff33"};
+        case 'SUN':   return {color: "#a65628"};
+    }
 };
 
 var eachFeature = function(feature, layer) {
@@ -111,13 +120,23 @@ var eachFeature = function(feature, layer) {
     Check out feature.properties to see some useful data about the feature that
     you can use in your application.
     ===================== */
-    console.log(feature);
+    switch (feature.properties.COLLDAY) {
+        case 'MON': $('.day-of-week').text('Monday'); break;
+        case 'TUE': $('.day-of-week').text('Tuesday');break;
+        case 'WED': $('.day-of-week').text('Wednesday');break;
+        case 'THU': $('.day-of-week').text('Thursday');break;
+        case 'FRI': $('.day-of-week').text('Friday');break;
+        case 'SAT': $('.day-of-week').text('Saturday');break;
+        case 'SUN': $('.day-of-week').text('Sunday');break;
+    }
+
     showResults();
   });
 };
 
 var myFilter = function(feature) {
-  return true;
+  if(feature.properties.COLLDAY === " ") {return false;}
+  else {return true;}
 };
 
 $(document).ready(function() {
@@ -137,6 +156,9 @@ var showResults = function() {
   will add the CSS "display: none" to the element, effectively removing it
   from the page. $(element).hide() removes "display: none" from an element,
   returning it to the page. You don't need to change this part.
+
+
+
   ===================== */
   $('#intro').hide();
   $('#results').show();
